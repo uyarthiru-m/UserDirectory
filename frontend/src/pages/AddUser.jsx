@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUser } from '../api/userApi';
+import { useAuth } from '../auth/useAuth';
 
 export default function AddUser() {
   const navigate = useNavigate();
+  const { getAccessToken } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -45,7 +47,8 @@ export default function AddUser() {
 
     setSubmitting(true);
     try {
-      await createUser({ ...formData, age: parseInt(formData.age, 10) });
+      const token = await getAccessToken();
+      await createUser({ ...formData, age: parseInt(formData.age, 10) }, token);
       navigate('/', { state: { toastMessage: 'User successfully created!' } });
     } catch (err) {
       setApiError(err.message);

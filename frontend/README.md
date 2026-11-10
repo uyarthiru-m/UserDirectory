@@ -1,16 +1,14 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The React/Vite client for User Directory. It provides the local email/password sign-in and registration page, protected directory routes, and authenticated API requests.
 
-Currently, two official plugins are available:
+From the frontend directory, install dependencies and start the development server:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```powershell
+npm ci
+npm run dev
+```
 
-## React Compiler
+Open the URL Vite prints (usually `http://localhost:5173`). The backend must also be running at `http://localhost:5129`. No OIDC provider or frontend secret is required for local accounts.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+For the complete application setup, architecture, and test/build commands, see the [repository README](../README.md).

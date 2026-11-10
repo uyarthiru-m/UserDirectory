@@ -13,13 +13,13 @@ public class UserService : IUserService
     public async Task<IEnumerable<UserResponseDto>> GetAllUsersAsync()
     {
         var users = await _repository.GetAllAsync();
-        return users.Select(u => new UserResponseDto(u.Id, u.Name, u.Age, u.City, u.State, u.Pincode));
+        return users.Select(MapUser);
     }
 
     public async Task<UserResponseDto?> GetUserByIdAsync(int id)
     {
-        var u = await _repository.GetByIdAsync(id);
-        return u == null ? null : new UserResponseDto(u.Id, u.Name, u.Age, u.City, u.State, u.Pincode);
+        var user = await _repository.GetByIdAsync(id);
+        return user is null ? null : MapUser(user);
     }
 
     public async Task<UserResponseDto> CreateUserAsync(CreateUserDto dto)
@@ -33,13 +33,13 @@ public class UserService : IUserService
             Pincode = dto.Pincode
         };
         var created = await _repository.AddAsync(user);
-        return new UserResponseDto(created.Id, created.Name, created.Age, created.City, created.State, created.Pincode);
+        return MapUser(created);
     }
 
     public async Task<bool> UpdateUserAsync(int id, UpdateUserDto dto)
     {
         var user = await _repository.GetByIdAsync(id);
-        if (user == null) return false;
+        if (user is null) return false;
 
         user.Name = dto.Name;
         user.Age = dto.Age;
@@ -54,9 +54,12 @@ public class UserService : IUserService
     public async Task<bool> DeleteUserAsync(int id)
     {
         var user = await _repository.GetByIdAsync(id);
-        if (user == null) return false;
+        if (user is null) return false;
 
         await _repository.DeleteAsync(user);
         return true;
     }
+
+    private static UserResponseDto MapUser(User user) =>
+        new(user.Id, user.Name, user.Age, user.City, user.State, user.Pincode);
 }

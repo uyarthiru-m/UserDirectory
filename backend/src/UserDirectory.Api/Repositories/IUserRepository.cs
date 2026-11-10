@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using UserDirectory.Api.Data;
 using UserDirectory.Api.Models;
 
 namespace UserDirectory.Api.Repositories;
