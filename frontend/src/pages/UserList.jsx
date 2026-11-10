@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUsers } from '../api/userApi';
+import { useAuth } from '../auth/useAuth';
 
 export default function UserList() {
+  const { getAccessToken } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchUsers()
+    getAccessToken()
+      .then(fetchUsers)
       .then(setUsers)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [getAccessToken]);
 
   if (loading) {
     return (
